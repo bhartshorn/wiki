@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en-US">
+        <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" type="text/css" href="/static/default.css" />
+                <title>Brandon's Wiki - {{.Title}}</title>
+        </head>
+        <body>
+                <h1>{{.Title}}</h1>
+
+                {{.HtmlBody}}
+
+                <hr />
+
+                <form class="inline">
+                        <button formaction="/edit/{{.Title}}">edit this page</button>
+                </form>
+                <form class="inline" action="/go/" method="POST">
+                        <input type="text" name="title" />
+                        <input type="submit" value="go to/create new" />
+                </form>
+        </body>
+</html>

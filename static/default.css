@@ -1,0 +1,138 @@
+body {
+        background-color: #3f3f3f;
+        color: #dcdccc;
+        width: 90%;
+        max-width: 70em;
+        margin: auto;
+        padding: 0;
+        /*
+        border-right: solid #262626;
+        border-left: solid #262626;
+        padding-left: 15px;
+        */
+}
+
+h1, h3, th{
+        text-align: center;
+        color: #9ccc9c;
+        font-family: sans-serif;
+}
+
+blockquote {
+        font-family: monospace;
+}
+
+.float-right {
+        float: right;
+        margin-bottom: 10px;
+}
+
+.inline {
+        display: inline;
+}
+        
+
+textarea {
+        background-color: #3f3f3f;
+        color: #dcdccc;
+        border: 1px solid #dc8c6c;
+        padding: 5px;
+        width: 100%;
+        height: 65em;
+}
+
+input[type="text"] {
+        background-color: #3f3f3f;
+        color: #dcdccc;
+        border: 1px solid #dc8c6c;
+        padding: 6px;
+}
+
+button, input[type="submit"] {
+        background-color: #3f3f3f;
+        color: #bc8cbc;
+        border: 1px solid #dc8c6c;
+        padding: 5px;
+        margin: 5px 5px 0 0;
+}
+
+button:hover, input[type="submit"]:hover {
+        color: #dc8c6c;
+        background-color: #262626;
+        cursor: pointer;
+}
+
+footer {
+        text-align: center;
+}
+
+
+a {
+        color: #bc8cbc;
+}
+
+a img {
+        border: solid 1px #bc8cbc;
+        padding: 3px;
+}
+
+a:visited {
+        color: #8c8cbc;
+}
+
+a:visited img {
+        border: solid 1px #8c8cbc;
+        padding: 3px;
+}
+
+a:hover {
+        color: #dc8c6c;
+}
+
+a:active {
+        color: #dc8c6c;
+
+}
+
+img.toobig {
+        height: auto;
+        width: 100%;
+}
+
+img.vertical_center {
+        vertical-align: middle;
+}
+
+table, th, td {
+        border-collapse: collapse;
+        border: 1px solid #dc8c6c;
+}
+
+th, td {
+        padding: 5px;
+}
+
+th {
+}
+
+table {
+        width: 100%;
+}
+
+hr {
+        border: 0;
+        background-color: #dc8c6c;
+        color: #dc8c6c;
+        height: 1px;
+        width: 85%;
+}
+
+/* For a list with 0 padding-left */
+ul.nopad {
+        padding-left: 0;
+}
+
+li {
+        list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAJCAYAAAARml2dAAAAHklEQVQImWNgYGBgUFNT+4+MGbAJwiWpKIHTcuoBAOB3LiHh/uO4AAAAAElFTkSuQmCC");
+        /* Method described at http://stackoverflow.com/a/13150561 */
+}
