@@ -8,6 +8,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"regexp"
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 var templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html"))

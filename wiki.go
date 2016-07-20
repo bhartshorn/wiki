@@ -1,16 +1,77 @@
 package main
 
 import (
+	"database/sql"
 	"errors"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 	"regexp"
 )
 
-var templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html"))
+type Page struct {
+	Title    string
+	Body     []byte
+	HtmlBody template.HTML
+}
+
+var (
+	templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html"))
+	validPath = regexp.MustCompile("^/(edit|save|view)/(\\w{1,20})$")
+	db        *sql.DB
+)
+
+func init() {
+	if _, err := os.Stat("./data/wiki.db"); os.IsNotExist(err) {
+		initDb()
+	}
+
+	db, err := sql.Open("sqlite3", "./data/wiki.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err = db.Ping(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func initDb() {
+	log.Println("Creating DB for the first time")
+	db, err := sql.Open("sqlite3", "./data/wiki.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	if err = db.Ping(); err != nil {
+		log.Fatal(err)
+	}
+
+	createTable := `
+	create table pages (
+		title text not null primary key,
+		body text not null);
+	delete from pages;
+	`
+
+	_, err = db.Exec(createTable)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func main() {
+	http.HandleFunc("/view/", viewHandler)
+	http.HandleFunc("/edit/", editHandler)
+	http.HandleFunc("/save/", saveHandler)
+	http.HandleFunc("/go/", goHandler)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.ListenAndServe(":8080", nil)
+}
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 	err := templates.ExecuteTemplate(w, tmpl+".html", p)
@@ -74,8 +135,6 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-var validPath = regexp.MustCompile("^/(edit|save|view)/(\\w{1,20})$")
-
 func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
 	m := validPath.FindStringSubmatch(r.URL.Path)
 	if m == nil {
@@ -83,12 +142,6 @@ func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
 		return "", errors.New("Invalid Page Title")
 	}
 	return m[2], nil
-}
-
-type Page struct {
-	Title    string
-	Body     []byte
-	HtmlBody template.HTML
 }
 
 func (p *Page) save() error {
@@ -105,13 +158,4 @@ func loadPage(title string) (*Page, error) {
 	unsafe := blackfriday.MarkdownCommon(body)
 	html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
 	return &Page{Title: title, Body: body, HtmlBody: template.HTML(html)}, nil
-}
-
-func main() {
-	http.HandleFunc("/view/", viewHandler)
-	http.HandleFunc("/edit/", editHandler)
-	http.HandleFunc("/save/", saveHandler)
-	http.HandleFunc("/go/", goHandler)
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-	http.ListenAndServe(":8080", nil)
 }
