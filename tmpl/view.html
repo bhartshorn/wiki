@@ -1,11 +1,4 @@
-<!doctype html>
-<html lang="en-US">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="/static/default.css" />
-		<title>Brandon's Wiki - {{.Title}}</title>
-	</head>
+{{ template "header.html" . }}
 	<body>
 		<h1>{{.Title}}</h1>
 
@@ -21,4 +14,4 @@
 			<input type="submit" value="go to/create new" />
 		</form>
 	</body>
-</html>
+{{ template "footer.html" . }}

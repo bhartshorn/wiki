@@ -22,11 +22,6 @@ blockquote {
         font-family: monospace;
 }
 
-.float-right {
-        float: right;
-        margin-bottom: 10px;
-}
-
 .inline {
         display: inline;
 }
@@ -60,6 +55,11 @@ button:hover, input[type="submit"]:hover {
         color: #dc8c6c;
         background-color: #262626;
         cursor: pointer;
+}
+
+label {
+	margin: 5px 0;
+	display: block;
 }
 
 footer {

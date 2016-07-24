@@ -21,7 +21,11 @@ type Page struct {
 }
 
 var (
-	templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html"))
+	templates = template.Must(template.ParseFiles(
+		"tmpl/header.html",
+		"tmpl/footer.html",
+		"tmpl/edit.html",
+		"tmpl/view.html"))
 	validPath = regexp.MustCompile("^/(edit|save|view)/(\\w{1,20})$")
 	db        *sql.DB
 )
